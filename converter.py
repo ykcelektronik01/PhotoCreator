@@ -1,18 +1,25 @@
 import streamlit as st
 from PIL import Image
 
-with st.expander("Start Camera"):
-    #Starting the camera
-    camera_image=st.camera_input("Camera")
+st.subheader("Color to Grayscale Converter")
+
+with st.expander("Start camera"):
+    camera_image = st.camera_input("Camera")
 
 
-if camera_image:#None veya False olup olmadigini kontrol ediyoruz.
-    #Create a pillow image instance
-    img=Image.open(camera_image)
+if camera_image:
+    img = Image.open(camera_image)
+    gray_camera_img = img.convert('L')
+    st.image(gray_camera_img)
 
-    #Convert the pillow image to grayscale
-    gray_img=img.convert("L")
+uploaded_image = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
+if uploaded_image is not None:
+    # Display uploaded image
+    img = Image.open(uploaded_image)
+    st.image(img, caption="Uploaded Image", use_column_width=True)
 
-    #Render the grayscale image on the webpage
-    st.image(gray_img)
+    # Convert to grayscale
+    gray_image = img.convert("L")
+    st.subheader("Grayscale Image")
+    st.image(gray_image, caption="Grayscale Image", use_column_width=True)
 
